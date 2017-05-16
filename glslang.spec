@@ -4,7 +4,7 @@
 #
 Name     : glslang
 Version  : SPIRV99
-Release  : 3
+Release  : 4
 URL      : https://github.com/KhronosGroup/glslang/archive/SPIRV99.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/SPIRV99.tar.gz
 Summary  : No detailed summary available
