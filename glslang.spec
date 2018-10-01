@@ -4,7 +4,7 @@
 #
 Name     : glslang
 Version  : 7.9.2888
-Release  : 9
+Release  : 10
 URL      : https://github.com/KhronosGroup/glslang/archive/7.9.2888.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/7.9.2888.tar.gz
 Summary  : No detailed summary available
@@ -46,15 +46,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1538429677
+export SOURCE_DATE_EPOCH=1538430926
 mkdir -p clr-build
 pushd clr-build
-%cmake ..
+%cmake .. -DCMAKE_INSTALL_LIBDIR=lib64
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1538429677
+export SOURCE_DATE_EPOCH=1538430926
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
@@ -117,8 +117,8 @@ popd
 /usr/include/glslang/MachineIndependent/propagateNoContraction.h
 /usr/include/glslang/MachineIndependent/reflection.h
 /usr/include/glslang/Public/ShaderLang.h
-/usr/lib/libHLSL.so
-/usr/lib/libSPIRV.so
-/usr/lib/libSPVRemapper.so
-/usr/lib/libglslang-default-resource-limits.so
-/usr/lib/libglslang.so
+/usr/lib64/libHLSL.so
+/usr/lib64/libSPIRV.so
+/usr/lib64/libSPVRemapper.so
+/usr/lib64/libglslang-default-resource-limits.so
+/usr/lib64/libglslang.so
