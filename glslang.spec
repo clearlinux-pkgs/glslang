@@ -4,13 +4,14 @@
 #
 Name     : glslang
 Version  : 7.10.2984
-Release  : 11
+Release  : 12
 URL      : https://github.com/KhronosGroup/glslang/archive/7.10.2984.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/7.10.2984.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: glslang-bin = %{version}-%{release}
+Requires: glslang-lib = %{version}-%{release}
 BuildRequires : bison
 BuildRequires : bison-dev
 BuildRequires : buildreq-cmake
@@ -31,11 +32,20 @@ bin components for the glslang package.
 %package dev
 Summary: dev components for the glslang package.
 Group: Development
+Requires: glslang-lib = %{version}-%{release}
 Requires: glslang-bin = %{version}-%{release}
 Provides: glslang-devel = %{version}-%{release}
 
 %description dev
 dev components for the glslang package.
+
+
+%package lib
+Summary: lib components for the glslang package.
+Group: Libraries
+
+%description lib
+lib components for the glslang package.
 
 
 %prep
@@ -46,7 +56,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1545245679
+export SOURCE_DATE_EPOCH=1546980935
 mkdir -p clr-build
 pushd clr-build
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64
@@ -54,7 +64,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545245679
+export SOURCE_DATE_EPOCH=1546980935
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
@@ -117,6 +127,9 @@ popd
 /usr/include/glslang/MachineIndependent/propagateNoContraction.h
 /usr/include/glslang/MachineIndependent/reflection.h
 /usr/include/glslang/Public/ShaderLang.h
+
+%files lib
+%defattr(-,root,root,-)
 /usr/lib64/libHLSL.so
 /usr/lib64/libSPIRV.so
 /usr/lib64/libSPVRemapper.so
