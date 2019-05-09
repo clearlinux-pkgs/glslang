@@ -1,5 +1,5 @@
 PKG_NAME := glslang
-URL = https://github.com/KhronosGroup/glslang/archive/7.11.3113.tar.gz
+URL = https://github.com/KhronosGroup/glslang/archive/7.11.3188/glslang-7.11.3188.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
