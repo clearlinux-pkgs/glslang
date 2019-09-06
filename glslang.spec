@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 7.11.3214
-Release  : 16
-URL      : https://github.com/KhronosGroup/glslang/archive/7.11.3214/glslang-7.11.3214.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/7.11.3214/glslang-7.11.3214.tar.gz
+Version  : 7.12.3352
+Release  : 17
+URL      : https://github.com/KhronosGroup/glslang/archive/7.12.3352/glslang-7.12.3352.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/7.12.3352/glslang-7.12.3352.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML BSD-3-Clause BSD-3-Clause-Clear
@@ -18,11 +18,11 @@ BuildRequires : bison
 BuildRequires : buildreq-cmake
 BuildRequires : flex
 BuildRequires : glibc-dev
+BuildRequires : python3
 
 %description
-VERSION
---------------------------------------------------------------------------------
-spirv-remap 0.97
+Also see the Khronos landing page for glslang as a reference front end:
+https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/
 
 %package bin
 Summary: bin components for the glslang package.
@@ -72,14 +72,14 @@ staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-7.11.3214
+%setup -q -n glslang-7.12.3352
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1562704088
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1567782660
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -93,7 +93,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1562704088
+export SOURCE_DATE_EPOCH=1567782660
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/LICENSE.txt
