@@ -4,11 +4,11 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 7.12.3352
-Release  : 17
-URL      : https://github.com/KhronosGroup/glslang/archive/7.12.3352/glslang-7.12.3352.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/7.12.3352/glslang-7.12.3352.tar.gz
-Summary  : No detailed summary available
+Version  : 7.13.3496
+Release  : 18
+URL      : https://github.com/KhronosGroup/glslang/archive/7.13.3496/glslang-7.13.3496.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/7.13.3496/glslang-7.13.3496.tar.gz
+Summary  : OpenGL and OpenGL ES shader front end and validator
 Group    : Development/Tools
 License  : AML BSD-3-Clause BSD-3-Clause-Clear
 Requires: glslang-bin = %{version}-%{release}
@@ -19,6 +19,7 @@ BuildRequires : buildreq-cmake
 BuildRequires : flex
 BuildRequires : glibc-dev
 BuildRequires : python3
+BuildRequires : util-linux
 
 %description
 Also see the Khronos landing page for glslang as a reference front end:
@@ -39,6 +40,7 @@ Group: Development
 Requires: glslang-lib = %{version}-%{release}
 Requires: glslang-bin = %{version}-%{release}
 Provides: glslang-devel = %{version}-%{release}
+Requires: glslang = %{version}-%{release}
 Requires: glslang = %{version}-%{release}
 
 %description dev
@@ -66,22 +68,24 @@ license components for the glslang package.
 Summary: staticdev components for the glslang package.
 Group: Default
 Requires: glslang-dev = %{version}-%{release}
+Requires: glslang-dev = %{version}-%{release}
 
 %description staticdev
 staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-7.12.3352
+%setup -q -n glslang-7.13.3496
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567782660
+export SOURCE_DATE_EPOCH=1572806487
 mkdir -p clr-build
 pushd clr-build
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -89,14 +93,14 @@ export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64 \
 -DENABLE_GLSLANG_INSTALL=True
-make  %{?_smp_mflags} VERBOSE=1
+make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1567782660
+export SOURCE_DATE_EPOCH=1572806487
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/LICENSE.txt
+cp %{_builddir}/glslang-7.13.3496/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
 pushd clr-build
 %make_install
 popd
@@ -111,22 +115,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/SPIRV/GLSL.ext.AMD.h
-/usr/include/SPIRV/GLSL.ext.EXT.h
-/usr/include/SPIRV/GLSL.ext.KHR.h
-/usr/include/SPIRV/GLSL.ext.NV.h
-/usr/include/SPIRV/GLSL.std.450.h
-/usr/include/SPIRV/GlslangToSpv.h
-/usr/include/SPIRV/Logger.h
-/usr/include/SPIRV/SPVRemapper.h
-/usr/include/SPIRV/SpvBuilder.h
-/usr/include/SPIRV/SpvTools.h
-/usr/include/SPIRV/bitutils.h
-/usr/include/SPIRV/disassemble.h
-/usr/include/SPIRV/doc.h
-/usr/include/SPIRV/hex_float.h
-/usr/include/SPIRV/spirv.hpp
-/usr/include/SPIRV/spvIR.h
 /usr/include/glslang/Include/BaseTypes.h
 /usr/include/glslang/Include/Common.h
 /usr/include/glslang/Include/ConstantUnion.h
@@ -158,6 +146,40 @@ popd
 /usr/include/glslang/MachineIndependent/propagateNoContraction.h
 /usr/include/glslang/MachineIndependent/reflection.h
 /usr/include/glslang/Public/ShaderLang.h
+/usr/include/glslang/SPIRV/GLSL.ext.AMD.h
+/usr/include/glslang/SPIRV/GLSL.ext.EXT.h
+/usr/include/glslang/SPIRV/GLSL.ext.KHR.h
+/usr/include/glslang/SPIRV/GLSL.ext.NV.h
+/usr/include/glslang/SPIRV/GLSL.std.450.h
+/usr/include/glslang/SPIRV/GlslangToSpv.h
+/usr/include/glslang/SPIRV/Logger.h
+/usr/include/glslang/SPIRV/SPVRemapper.h
+/usr/include/glslang/SPIRV/SpvBuilder.h
+/usr/include/glslang/SPIRV/SpvTools.h
+/usr/include/glslang/SPIRV/bitutils.h
+/usr/include/glslang/SPIRV/disassemble.h
+/usr/include/glslang/SPIRV/doc.h
+/usr/include/glslang/SPIRV/hex_float.h
+/usr/include/glslang/SPIRV/spirv.hpp
+/usr/include/glslang/SPIRV/spvIR.h
+/usr/lib/cmake/HLSLTargets-relwithdebinfo.cmake
+/usr/lib/cmake/HLSLTargets.cmake
+/usr/lib/cmake/OGLCompilerTargets-relwithdebinfo.cmake
+/usr/lib/cmake/OGLCompilerTargets.cmake
+/usr/lib/cmake/OSDependentTargets-relwithdebinfo.cmake
+/usr/lib/cmake/OSDependentTargets.cmake
+/usr/lib/cmake/SPIRVTargets-relwithdebinfo.cmake
+/usr/lib/cmake/SPIRVTargets.cmake
+/usr/lib/cmake/SPVRemapperTargets-relwithdebinfo.cmake
+/usr/lib/cmake/SPVRemapperTargets.cmake
+/usr/lib/cmake/glslang-default-resource-limitsTargets-relwithdebinfo.cmake
+/usr/lib/cmake/glslang-default-resource-limitsTargets.cmake
+/usr/lib/cmake/glslangTargets-relwithdebinfo.cmake
+/usr/lib/cmake/glslangTargets.cmake
+/usr/lib/cmake/glslangValidatorTargets-relwithdebinfo.cmake
+/usr/lib/cmake/glslangValidatorTargets.cmake
+/usr/lib/cmake/spirv-remapTargets-relwithdebinfo.cmake
+/usr/lib/cmake/spirv-remapTargets.cmake
 
 %files lib
 %defattr(-,root,root,-)
@@ -169,7 +191,7 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/glslang/LICENSE.txt
+/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
 
 %files staticdev
 %defattr(-,root,root,-)
