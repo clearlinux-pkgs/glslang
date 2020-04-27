@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 8.13.3559
-Release  : 20
-URL      : https://github.com/KhronosGroup/glslang/archive/8.13.3559/glslang-8.13.3559.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/8.13.3559/glslang-8.13.3559.tar.gz
+Version  : 8.13.3743
+Release  : 21
+URL      : https://github.com/KhronosGroup/glslang/archive/8.13.3743/glslang-8.13.3743.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/8.13.3743/glslang-8.13.3743.tar.gz
 Summary  : OpenGL and OpenGL ES shader front end and validator
 Group    : Development/Tools
 License  : AML BSD-3-Clause BSD-3-Clause-Clear
@@ -21,8 +21,9 @@ BuildRequires : glibc-dev
 BuildRequires : python3
 
 %description
-Also see the Khronos landing page for glslang as a reference front end:
-https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/
+# News
+[![Build Status](https://travis-ci.org/KhronosGroup/glslang.svg?branch=master)](https://travis-ci.org/KhronosGroup/glslang)
+[![Build status](https://ci.appveyor.com/api/projects/status/q6fi9cb0qnhkla68/branch/master?svg=true)](https://ci.appveyor.com/project/Khronoswebmaster/glslang/branch/master)
 
 %package bin
 Summary: bin components for the glslang package.
@@ -74,15 +75,15 @@ staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-8.13.3559
-cd %{_builddir}/glslang-8.13.3559
+%setup -q -n glslang-8.13.3743
+cd %{_builddir}/glslang-8.13.3743
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1578414832
+export SOURCE_DATE_EPOCH=1588010177
 mkdir -p clr-build
 pushd clr-build
 # -Werror is for werrorists
@@ -97,10 +98,10 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1578414832
+export SOURCE_DATE_EPOCH=1588010177
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp %{_builddir}/glslang-8.13.3559/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
+cp %{_builddir}/glslang-8.13.3743/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
 pushd clr-build
 %make_install
 popd
@@ -122,6 +123,7 @@ popd
 /usr/include/SPIRV/GLSL.std.450.h
 /usr/include/SPIRV/GlslangToSpv.h
 /usr/include/SPIRV/Logger.h
+/usr/include/SPIRV/NonSemanticDebugPrintf.h
 /usr/include/SPIRV/SPVRemapper.h
 /usr/include/SPIRV/SpvBuilder.h
 /usr/include/SPIRV/SpvTools.h
@@ -141,6 +143,8 @@ popd
 /usr/include/glslang/Include/ShHandle.h
 /usr/include/glslang/Include/Types.h
 /usr/include/glslang/Include/arrays.h
+/usr/include/glslang/Include/glslang_c_interface.h
+/usr/include/glslang/Include/glslang_c_shader_types.h
 /usr/include/glslang/Include/intermediate.h
 /usr/include/glslang/Include/revision.h
 /usr/include/glslang/MachineIndependent/Initialize.h
@@ -169,6 +173,7 @@ popd
 /usr/include/glslang/SPIRV/GLSL.std.450.h
 /usr/include/glslang/SPIRV/GlslangToSpv.h
 /usr/include/glslang/SPIRV/Logger.h
+/usr/include/glslang/SPIRV/NonSemanticDebugPrintf.h
 /usr/include/glslang/SPIRV/SPVRemapper.h
 /usr/include/glslang/SPIRV/SpvBuilder.h
 /usr/include/glslang/SPIRV/SpvTools.h
