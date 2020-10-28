@@ -4,31 +4,29 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 8.13.3743
-Release  : 21
-URL      : https://github.com/KhronosGroup/glslang/archive/8.13.3743/glslang-8.13.3743.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/8.13.3743/glslang-8.13.3743.tar.gz
-Summary  : OpenGL and OpenGL ES shader front end and validator
+Version  : 10.11.0.0
+Release  : 22
+URL      : https://github.com/KhronosGroup/glslang/archive/10-11.0.0/glslang-10.11.0.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/10-11.0.0/glslang-10.11.0.0.tar.gz
+Summary  : No detailed summary available
 Group    : Development/Tools
-License  : AML BSD-3-Clause BSD-3-Clause-Clear
+License  : AML BSD-3-Clause
 Requires: glslang-bin = %{version}-%{release}
 Requires: glslang-lib = %{version}-%{release}
-Requires: glslang-license = %{version}-%{release}
 BuildRequires : bison
 BuildRequires : buildreq-cmake
 BuildRequires : flex
 BuildRequires : glibc-dev
-BuildRequires : python3
 
 %description
 # News
-[![Build Status](https://travis-ci.org/KhronosGroup/glslang.svg?branch=master)](https://travis-ci.org/KhronosGroup/glslang)
-[![Build status](https://ci.appveyor.com/api/projects/status/q6fi9cb0qnhkla68/branch/master?svg=true)](https://ci.appveyor.com/project/Khronoswebmaster/glslang/branch/master)
+1. Visual Studio 2013 is no longer supported
+Microsoft Visual Studio 2013 is no longer officially supported. \
+Please upgrade to at least Visual Studio 2015.
 
 %package bin
 Summary: bin components for the glslang package.
 Group: Binaries
-Requires: glslang-license = %{version}-%{release}
 
 %description bin
 bin components for the glslang package.
@@ -41,7 +39,6 @@ Requires: glslang-lib = %{version}-%{release}
 Requires: glslang-bin = %{version}-%{release}
 Provides: glslang-devel = %{version}-%{release}
 Requires: glslang = %{version}-%{release}
-Requires: glslang = %{version}-%{release}
 
 %description dev
 dev components for the glslang package.
@@ -50,24 +47,14 @@ dev components for the glslang package.
 %package lib
 Summary: lib components for the glslang package.
 Group: Libraries
-Requires: glslang-license = %{version}-%{release}
 
 %description lib
 lib components for the glslang package.
 
 
-%package license
-Summary: license components for the glslang package.
-Group: Default
-
-%description license
-license components for the glslang package.
-
-
 %package staticdev
 Summary: staticdev components for the glslang package.
 Group: Default
-Requires: glslang-dev = %{version}-%{release}
 Requires: glslang-dev = %{version}-%{release}
 
 %description staticdev
@@ -75,33 +62,30 @@ staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-8.13.3743
-cd %{_builddir}/glslang-8.13.3743
+%setup -q -n glslang-10-11.0.0
+cd %{_builddir}/glslang-10-11.0.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1588010177
+export SOURCE_DATE_EPOCH=1603843629
 mkdir -p clr-build
 pushd clr-build
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64 \
 -DENABLE_GLSLANG_INSTALL=True
-make  %{?_smp_mflags}  VERBOSE=1
+make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1588010177
+export SOURCE_DATE_EPOCH=1603843629
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp %{_builddir}/glslang-8.13.3743/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
 pushd clr-build
 %make_install
 popd
@@ -116,23 +100,14 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/SPIRV/GLSL.ext.AMD.h
-/usr/include/SPIRV/GLSL.ext.EXT.h
-/usr/include/SPIRV/GLSL.ext.KHR.h
-/usr/include/SPIRV/GLSL.ext.NV.h
-/usr/include/SPIRV/GLSL.std.450.h
-/usr/include/SPIRV/GlslangToSpv.h
-/usr/include/SPIRV/Logger.h
-/usr/include/SPIRV/NonSemanticDebugPrintf.h
-/usr/include/SPIRV/SPVRemapper.h
-/usr/include/SPIRV/SpvBuilder.h
-/usr/include/SPIRV/SpvTools.h
-/usr/include/SPIRV/bitutils.h
-/usr/include/SPIRV/disassemble.h
-/usr/include/SPIRV/doc.h
-/usr/include/SPIRV/hex_float.h
-/usr/include/SPIRV/spirv.hpp
-/usr/include/SPIRV/spvIR.h
+/usr/include/glslang/HLSL/hlslAttributes.h
+/usr/include/glslang/HLSL/hlslGrammar.h
+/usr/include/glslang/HLSL/hlslOpMap.h
+/usr/include/glslang/HLSL/hlslParseHelper.h
+/usr/include/glslang/HLSL/hlslParseables.h
+/usr/include/glslang/HLSL/hlslScanContext.h
+/usr/include/glslang/HLSL/hlslTokenStream.h
+/usr/include/glslang/HLSL/hlslTokens.h
 /usr/include/glslang/Include/BaseTypes.h
 /usr/include/glslang/Include/Common.h
 /usr/include/glslang/Include/ConstantUnion.h
@@ -146,7 +121,6 @@ popd
 /usr/include/glslang/Include/glslang_c_interface.h
 /usr/include/glslang/Include/glslang_c_shader_types.h
 /usr/include/glslang/Include/intermediate.h
-/usr/include/glslang/Include/revision.h
 /usr/include/glslang/MachineIndependent/Initialize.h
 /usr/include/glslang/MachineIndependent/LiveTraverser.h
 /usr/include/glslang/MachineIndependent/ParseHelper.h
@@ -183,6 +157,7 @@ popd
 /usr/include/glslang/SPIRV/hex_float.h
 /usr/include/glslang/SPIRV/spirv.hpp
 /usr/include/glslang/SPIRV/spvIR.h
+/usr/include/glslang/build_info.h
 /usr/lib64/cmake/HLSLTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/HLSLTargets.cmake
 /usr/lib64/cmake/OGLCompilerTargets-relwithdebinfo.cmake
@@ -209,10 +184,8 @@ popd
 /usr/lib64/libSPVRemapper.so
 /usr/lib64/libglslang-default-resource-limits.so
 /usr/lib64/libglslang.so
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/glslang/b6162cb1ae79b7e8c672797b496ecd4575874592
+/usr/lib64/libglslang.so.11
+/usr/lib64/libglslang.so.11.0.0
 
 %files staticdev
 %defattr(-,root,root,-)
