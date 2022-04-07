@@ -4,15 +4,16 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 11.8.0
-Release  : 31
-URL      : https://github.com/KhronosGroup/glslang/archive/11.8.0/glslang-11.8.0.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/11.8.0/glslang-11.8.0.tar.gz
+Version  : 11.9.0
+Release  : 32
+URL      : https://github.com/KhronosGroup/glslang/archive/11.9.0/glslang-11.9.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/11.9.0/glslang-11.9.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : AML BSD-3-Clause
+License  : AML Apache-2.0 BSD-3-Clause
 Requires: glslang-bin = %{version}-%{release}
 Requires: glslang-lib = %{version}-%{release}
+Requires: glslang-license = %{version}-%{release}
 BuildRequires : bison
 BuildRequires : buildreq-cmake
 BuildRequires : flex
@@ -27,6 +28,7 @@ Please upgrade to at least Visual Studio 2015.
 %package bin
 Summary: bin components for the glslang package.
 Group: Binaries
+Requires: glslang-license = %{version}-%{release}
 
 %description bin
 bin components for the glslang package.
@@ -47,9 +49,18 @@ dev components for the glslang package.
 %package lib
 Summary: lib components for the glslang package.
 Group: Libraries
+Requires: glslang-license = %{version}-%{release}
 
 %description lib
 lib components for the glslang package.
+
+
+%package license
+Summary: license components for the glslang package.
+Group: Default
+
+%description license
+license components for the glslang package.
 
 
 %package staticdev
@@ -62,15 +73,15 @@ staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-11.8.0
-cd %{_builddir}/glslang-11.8.0
+%setup -q -n glslang-11.9.0
+cd %{_builddir}/glslang-11.9.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1643407551
+export SOURCE_DATE_EPOCH=1649375022
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -84,8 +95,10 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1643407551
+export SOURCE_DATE_EPOCH=1649375022
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/glslang
+cp %{_builddir}/glslang-11.9.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
 pushd clr-build
 %make_install
 popd
@@ -186,7 +199,11 @@ popd
 /usr/lib64/libglslang-default-resource-limits.so
 /usr/lib64/libglslang.so
 /usr/lib64/libglslang.so.11
-/usr/lib64/libglslang.so.11.8.0
+/usr/lib64/libglslang.so.11.9.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
 
 %files staticdev
 %defattr(-,root,root,-)
