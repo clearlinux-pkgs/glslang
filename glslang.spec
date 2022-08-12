@@ -4,14 +4,15 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 11.10.0
-Release  : 33
-URL      : https://github.com/KhronosGroup/glslang/archive/11.10.0/glslang-11.10.0.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/11.10.0/glslang-11.10.0.tar.gz
+Version  : 11.11.0
+Release  : 34
+URL      : https://github.com/KhronosGroup/glslang/archive/11.11.0/glslang-11.11.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/11.11.0/glslang-11.11.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML Apache-2.0 BSD-3-Clause
 Requires: glslang-bin = %{version}-%{release}
+Requires: glslang-data = %{version}-%{release}
 Requires: glslang-lib = %{version}-%{release}
 Requires: glslang-license = %{version}-%{release}
 BuildRequires : bison
@@ -28,10 +29,19 @@ Please upgrade to at least Visual Studio 2015.
 %package bin
 Summary: bin components for the glslang package.
 Group: Binaries
+Requires: glslang-data = %{version}-%{release}
 Requires: glslang-license = %{version}-%{release}
 
 %description bin
 bin components for the glslang package.
+
+
+%package data
+Summary: data components for the glslang package.
+Group: Data
+
+%description data
+data components for the glslang package.
 
 
 %package dev
@@ -39,6 +49,7 @@ Summary: dev components for the glslang package.
 Group: Development
 Requires: glslang-lib = %{version}-%{release}
 Requires: glslang-bin = %{version}-%{release}
+Requires: glslang-data = %{version}-%{release}
 Provides: glslang-devel = %{version}-%{release}
 Requires: glslang = %{version}-%{release}
 
@@ -49,6 +60,7 @@ dev components for the glslang package.
 %package lib
 Summary: lib components for the glslang package.
 Group: Libraries
+Requires: glslang-data = %{version}-%{release}
 Requires: glslang-license = %{version}-%{release}
 
 %description lib
@@ -73,15 +85,15 @@ staticdev components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-11.10.0
-cd %{_builddir}/glslang-11.10.0
+%setup -q -n glslang-11.11.0
+cd %{_builddir}/glslang-11.11.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1654267590
+export SOURCE_DATE_EPOCH=1660333585
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -95,10 +107,10 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1654267590
+export SOURCE_DATE_EPOCH=1660333585
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp %{_builddir}/glslang-11.10.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
+cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
 pushd clr-build
 %make_install
 popd
@@ -110,6 +122,13 @@ popd
 %defattr(-,root,root,-)
 /usr/bin/glslangValidator
 /usr/bin/spirv-remap
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/glslang/glslang-config-version.cmake
+/usr/share/glslang/glslang-config.cmake
+/usr/share/glslang/glslang-targets-relwithdebinfo.cmake
+/usr/share/glslang/glslang-targets.cmake
 
 %files dev
 %defattr(-,root,root,-)
@@ -172,23 +191,14 @@ popd
 /usr/include/glslang/SPIRV/spirv.hpp
 /usr/include/glslang/SPIRV/spvIR.h
 /usr/include/glslang/build_info.h
-/usr/lib64/cmake/HLSLTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/HLSLTargets.cmake
-/usr/lib64/cmake/OGLCompilerTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/OGLCompilerTargets.cmake
-/usr/lib64/cmake/OSDependentTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/OSDependentTargets.cmake
-/usr/lib64/cmake/SPIRVTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/SPIRVTargets.cmake
-/usr/lib64/cmake/SPVRemapperTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/SPVRemapperTargets.cmake
-/usr/lib64/cmake/glslang-default-resource-limitsTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/glslang-default-resource-limitsTargets.cmake
-/usr/lib64/cmake/glslangTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/glslangTargets.cmake
-/usr/lib64/cmake/glslangValidatorTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/glslangValidatorTargets.cmake
-/usr/lib64/cmake/spirv-remapTargets-relwithdebinfo.cmake
 /usr/lib64/cmake/spirv-remapTargets.cmake
 
 %files lib
@@ -199,7 +209,7 @@ popd
 /usr/lib64/libglslang-default-resource-limits.so
 /usr/lib64/libglslang.so
 /usr/lib64/libglslang.so.11
-/usr/lib64/libglslang.so.11.10.0
+/usr/lib64/libglslang.so.11.11.0
 
 %files license
 %defattr(0644,root,root,0755)
@@ -207,5 +217,7 @@ popd
 
 %files staticdev
 %defattr(-,root,root,-)
+/usr/lib64/libGenericCodeGen.a
+/usr/lib64/libMachineIndependent.a
 /usr/lib64/libOGLCompiler.a
 /usr/lib64/libOSDependent.a

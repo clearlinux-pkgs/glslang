@@ -1174,6 +1174,7 @@ libSPIRV.so:_ZNK7glslang9TFunction5cloneEv
 libSPIRV.so:_ZNK7glslang9TVariable4dumpER9TInfoSinkb
 libSPIRV.so:_ZNK7glslang9TVariable5cloneEv
 libSPIRV.so:glslang_program_SPIRV_generate
+libSPIRV.so:glslang_program_SPIRV_generate_with_options
 libSPIRV.so:glslang_program_SPIRV_get
 libSPIRV.so:glslang_program_SPIRV_get_messages
 libSPIRV.so:glslang_program_SPIRV_get_ptr
@@ -2220,12 +2221,14 @@ libglslang.so.11:_ZNK7glslang9TVariable5cloneEv
 libglslang.so.11:glslang_finalize_process
 libglslang.so.11:glslang_initialize_process
 libglslang.so.11:glslang_program_add_shader
+libglslang.so.11:glslang_program_add_source_text
 libglslang.so.11:glslang_program_create
 libglslang.so.11:glslang_program_delete
 libglslang.so.11:glslang_program_get_info_debug_log
 libglslang.so.11:glslang_program_get_info_log
 libglslang.so.11:glslang_program_link
 libglslang.so.11:glslang_program_map_io
+libglslang.so.11:glslang_program_set_source_file
 libglslang.so.11:glslang_shader_create
 libglslang.so.11:glslang_shader_delete
 libglslang.so.11:glslang_shader_get_info_debug_log
