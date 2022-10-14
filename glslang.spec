@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : glslang
 Version  : 11.12.0
-Release  : 35
+Release  : 36
 URL      : https://github.com/KhronosGroup/glslang/archive/11.12.0/glslang-11.12.0.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/11.12.0/glslang-11.12.0.tar.gz
 Summary  : No detailed summary available
@@ -18,7 +18,6 @@ BuildRequires : bison
 BuildRequires : buildreq-cmake
 BuildRequires : flex
 BuildRequires : glibc-dev
-BuildRequires : glslang-data
 
 %description
 # News
@@ -73,7 +72,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1665755879
+export SOURCE_DATE_EPOCH=1665759939
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -87,10 +86,10 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1665755879
+export SOURCE_DATE_EPOCH=1665759939
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
+cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
 pushd clr-build
 %make_install
 popd
