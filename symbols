@@ -1274,11 +1274,14 @@ libSPVRemapper.so:_ZNK3spv10spirvbin_t8validateEv
 libSPVRemapper.so:_ZNK3spv10spirvbin_t9isConstOpENS_2OpE
 libSPVRemapper.so:_ZNK3spv10spirvbin_t9isStripOpENS_2OpEj
 libSPVRemapper.so:_ZNK3spv10spirvbin_t9typeRangeENS_2OpE
-libglslang-default-resource-limits.so:_ZN7glslang20DecodeResourceLimitsEP16TBuiltInResourcePc
-libglslang-default-resource-limits.so:_ZN7glslang32GetDefaultTBuiltInResourceStringB5cxx11Ev
+libglslang-default-resource-limits.so:_Z12GetResourcesv
+libglslang-default-resource-limits.so:_Z19GetDefaultResourcesv
+libglslang-default-resource-limits.so:_Z20DecodeResourceLimitsP16TBuiltInResourcePc
+libglslang-default-resource-limits.so:_Z32GetDefaultTBuiltInResourceStringB5cxx11v
 libglslang-default-resource-limits.so:glslang_decode_resource_limits
 libglslang-default-resource-limits.so:glslang_default_resource
 libglslang-default-resource-limits.so:glslang_default_resource_string
+libglslang-default-resource-limits.so:glslang_resource
 libglslang.so.11:ShCompile
 libglslang.so.11:ShConstructCompiler
 libglslang.so.11:ShConstructLinker

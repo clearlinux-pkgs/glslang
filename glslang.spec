@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 11.12.0
-Release  : 38
-URL      : https://github.com/KhronosGroup/glslang/archive/11.12.0/glslang-11.12.0.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/11.12.0/glslang-11.12.0.tar.gz
+Version  : 11.13.0
+Release  : 39
+URL      : https://github.com/KhronosGroup/glslang/archive/11.13.0/glslang-11.13.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/11.13.0/glslang-11.13.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML Apache-2.0 BSD-3-Clause
@@ -64,15 +64,15 @@ license components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-11.12.0
-cd %{_builddir}/glslang-11.12.0
+%setup -q -n glslang-11.13.0
+cd %{_builddir}/glslang-11.13.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1665767870
+export SOURCE_DATE_EPOCH=1670489254
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -86,10 +86,10 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1665767870
+export SOURCE_DATE_EPOCH=1670489254
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
-cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
+cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
 pushd clr-build
 %make_install
 popd
@@ -144,8 +144,11 @@ popd
 /usr/include/glslang/MachineIndependent/preprocessor/PpTokens.h
 /usr/include/glslang/MachineIndependent/propagateNoContraction.h
 /usr/include/glslang/MachineIndependent/reflection.h
+/usr/include/glslang/Public/ResourceLimits.h
 /usr/include/glslang/Public/ShaderLang.h
+/usr/include/glslang/Public/resource_limits_c.h
 /usr/include/glslang/SPIRV/GLSL.ext.AMD.h
+/usr/include/glslang/SPIRV/GLSL.ext.ARM.h
 /usr/include/glslang/SPIRV/GLSL.ext.EXT.h
 /usr/include/glslang/SPIRV/GLSL.ext.KHR.h
 /usr/include/glslang/SPIRV/GLSL.ext.NV.h
@@ -183,7 +186,7 @@ popd
 /usr/lib64/libglslang-default-resource-limits.so
 /usr/lib64/libglslang.so
 /usr/lib64/libglslang.so.11
-/usr/lib64/libglslang.so.11.12.0
+/usr/lib64/libglslang.so.11.13.0
 
 %files license
 %defattr(0644,root,root,0755)
