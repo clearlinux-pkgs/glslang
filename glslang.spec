@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : glslang
 Version  : 12.0.0
-Release  : 40
+Release  : 41
 URL      : https://github.com/KhronosGroup/glslang/archive/12.0.0/glslang-12.0.0.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/12.0.0/glslang-12.0.0.tar.gz
 Summary  : No detailed summary available
