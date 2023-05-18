@@ -5,10 +5,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 12.1.0
-Release  : 42
-URL      : https://github.com/KhronosGroup/glslang/archive/12.1.0/glslang-12.1.0.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/12.1.0/glslang-12.1.0.tar.gz
+Version  : 12.2.0
+Release  : 43
+URL      : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML Apache-2.0 BSD-3-Clause
@@ -66,41 +66,62 @@ license components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-12.1.0
-cd %{_builddir}/glslang-12.1.0
+%setup -q -n glslang-12.2.0
+cd %{_builddir}/glslang-12.2.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1679496317
+export SOURCE_DATE_EPOCH=1684424600
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+%cmake .. -DCMAKE_INSTALL_LIBDIR=lib64 \
+-DENABLE_GLSLANG_INSTALL=True
+make  %{?_smp_mflags}
+popd
+mkdir -p clr-build-avx2
+pushd clr-build-avx2
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FCFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export FFLAGS="$FFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -O3 -Wl,-z,x86-64-v3 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd -march=x86-64-v3 "
+export CFLAGS="$CFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -march=x86-64-v3 -m64 -Wl,-z,x86-64-v3"
 %cmake .. -DCMAKE_INSTALL_LIBDIR=lib64 \
 -DENABLE_GLSLANG_INSTALL=True
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1679496317
+export SOURCE_DATE_EPOCH=1684424600
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
+pushd clr-build-avx2
+%make_install_v3  || :
+popd
 pushd clr-build
 %make_install
 popd
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/glslangValidator
+/V3/usr/bin/spirv-remap
 /usr/bin/glslangValidator
 /usr/bin/spirv-remap
 
@@ -182,21 +203,36 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/libHLSL.so
+/V3/usr/lib64/libHLSL.so.12
+/V3/usr/lib64/libHLSL.so.12.2.0
+/V3/usr/lib64/libSPIRV.so
+/V3/usr/lib64/libSPIRV.so.12
+/V3/usr/lib64/libSPIRV.so.12.2.0
+/V3/usr/lib64/libSPVRemapper.so
+/V3/usr/lib64/libSPVRemapper.so.12
+/V3/usr/lib64/libSPVRemapper.so.12.2.0
+/V3/usr/lib64/libglslang-default-resource-limits.so
+/V3/usr/lib64/libglslang-default-resource-limits.so.12
+/V3/usr/lib64/libglslang-default-resource-limits.so.12.2.0
+/V3/usr/lib64/libglslang.so
+/V3/usr/lib64/libglslang.so.12
+/V3/usr/lib64/libglslang.so.12.2.0
 /usr/lib64/libHLSL.so
 /usr/lib64/libHLSL.so.12
-/usr/lib64/libHLSL.so.12.1.0
+/usr/lib64/libHLSL.so.12.2.0
 /usr/lib64/libSPIRV.so
 /usr/lib64/libSPIRV.so.12
-/usr/lib64/libSPIRV.so.12.1.0
+/usr/lib64/libSPIRV.so.12.2.0
 /usr/lib64/libSPVRemapper.so
 /usr/lib64/libSPVRemapper.so.12
-/usr/lib64/libSPVRemapper.so.12.1.0
+/usr/lib64/libSPVRemapper.so.12.2.0
 /usr/lib64/libglslang-default-resource-limits.so
 /usr/lib64/libglslang-default-resource-limits.so.12
-/usr/lib64/libglslang-default-resource-limits.so.12.1.0
+/usr/lib64/libglslang-default-resource-limits.so.12.2.0
 /usr/lib64/libglslang.so
 /usr/lib64/libglslang.so.12
-/usr/lib64/libglslang.so.12.1.0
+/usr/lib64/libglslang.so.12.2.0
 
 %files license
 %defattr(0644,root,root,0755)
