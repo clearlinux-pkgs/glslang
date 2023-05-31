@@ -6,7 +6,7 @@
 %define keepstatic 1
 Name     : glslang
 Version  : 12.2.0
-Release  : 43
+Release  : 44
 URL      : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
 Summary  : No detailed summary available
@@ -74,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1684424600
+export SOURCE_DATE_EPOCH=1685510083
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -103,7 +103,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1684424600
+export SOURCE_DATE_EPOCH=1685510083
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
@@ -203,20 +203,10 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libHLSL.so
-/V3/usr/lib64/libHLSL.so.12
 /V3/usr/lib64/libHLSL.so.12.2.0
-/V3/usr/lib64/libSPIRV.so
-/V3/usr/lib64/libSPIRV.so.12
 /V3/usr/lib64/libSPIRV.so.12.2.0
-/V3/usr/lib64/libSPVRemapper.so
-/V3/usr/lib64/libSPVRemapper.so.12
 /V3/usr/lib64/libSPVRemapper.so.12.2.0
-/V3/usr/lib64/libglslang-default-resource-limits.so
-/V3/usr/lib64/libglslang-default-resource-limits.so.12
 /V3/usr/lib64/libglslang-default-resource-limits.so.12.2.0
-/V3/usr/lib64/libglslang.so
-/V3/usr/lib64/libglslang.so.12
 /V3/usr/lib64/libglslang.so.12.2.0
 /usr/lib64/libHLSL.so
 /usr/lib64/libHLSL.so.12
