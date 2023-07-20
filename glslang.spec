@@ -5,10 +5,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 12.2.0
-Release  : 44
-URL      : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/12.2.0/glslang-12.2.0.tar.gz
+Version  : 12.3.0
+Release  : 45
+URL      : https://github.com/KhronosGroup/glslang/archive/12.3.0/glslang-12.3.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/12.3.0/glslang-12.3.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML Apache-2.0 BSD-3-Clause
@@ -65,16 +65,25 @@ Group: Default
 license components for the glslang package.
 
 
+%package staticdev
+Summary: staticdev components for the glslang package.
+Group: Default
+Requires: glslang-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the glslang package.
+
+
 %prep
-%setup -q -n glslang-12.2.0
-cd %{_builddir}/glslang-12.2.0
+%setup -q -n glslang-12.3.0
+cd %{_builddir}/glslang-12.3.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685510083
+export SOURCE_DATE_EPOCH=1689862764
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -103,7 +112,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1685510083
+export SOURCE_DATE_EPOCH=1689862764
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
@@ -120,9 +129,9 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
-/V3/usr/bin/glslangValidator
+/V3/usr/bin/glslang
 /V3/usr/bin/spirv-remap
-/usr/bin/glslangValidator
+/usr/bin/glslang
 /usr/bin/spirv-remap
 
 %files dev
@@ -194,36 +203,36 @@ popd
 /usr/lib64/cmake/SPIRVTargets.cmake
 /usr/lib64/cmake/SPVRemapperTargets.cmake
 /usr/lib64/cmake/glslang-default-resource-limitsTargets.cmake
+/usr/lib64/cmake/glslang-standaloneTargets.cmake
 /usr/lib64/cmake/glslang/glslang-config-version.cmake
 /usr/lib64/cmake/glslang/glslang-config.cmake
 /usr/lib64/cmake/glslang/glslang-targets-relwithdebinfo.cmake
 /usr/lib64/cmake/glslang/glslang-targets.cmake
-/usr/lib64/cmake/glslangValidatorTargets.cmake
 /usr/lib64/cmake/spirv-remapTargets.cmake
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libHLSL.so.12.2.0
-/V3/usr/lib64/libSPIRV.so.12.2.0
-/V3/usr/lib64/libSPVRemapper.so.12.2.0
-/V3/usr/lib64/libglslang-default-resource-limits.so.12.2.0
-/V3/usr/lib64/libglslang.so.12.2.0
+/V3/usr/lib64/libHLSL.so.12.3.0
+/V3/usr/lib64/libSPIRV.so.12.3.0
+/V3/usr/lib64/libSPVRemapper.so.12.3.0
+/V3/usr/lib64/libglslang.so.12.3.0
 /usr/lib64/libHLSL.so
 /usr/lib64/libHLSL.so.12
-/usr/lib64/libHLSL.so.12.2.0
+/usr/lib64/libHLSL.so.12.3.0
 /usr/lib64/libSPIRV.so
 /usr/lib64/libSPIRV.so.12
-/usr/lib64/libSPIRV.so.12.2.0
+/usr/lib64/libSPIRV.so.12.3.0
 /usr/lib64/libSPVRemapper.so
 /usr/lib64/libSPVRemapper.so.12
-/usr/lib64/libSPVRemapper.so.12.2.0
-/usr/lib64/libglslang-default-resource-limits.so
-/usr/lib64/libglslang-default-resource-limits.so.12
-/usr/lib64/libglslang-default-resource-limits.so.12.2.0
+/usr/lib64/libSPVRemapper.so.12.3.0
 /usr/lib64/libglslang.so
 /usr/lib64/libglslang.so.12
-/usr/lib64/libglslang.so.12.2.0
+/usr/lib64/libglslang.so.12.3.0
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libglslang-default-resource-limits.a
