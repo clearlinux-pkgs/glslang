@@ -6,7 +6,7 @@
 %define keepstatic 1
 Name     : glslang
 Version  : 13.0.0
-Release  : 47
+Release  : 48
 URL      : https://github.com/KhronosGroup/glslang/archive/13.0.0/glslang-13.0.0.tar.gz
 Source0  : https://github.com/KhronosGroup/glslang/archive/13.0.0/glslang-13.0.0.tar.gz
 Summary  : No detailed summary available
@@ -83,7 +83,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1692975161
+export SOURCE_DATE_EPOCH=1692976756
+unset LD_AS_NEEDED
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -112,7 +113,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1692975161
+export SOURCE_DATE_EPOCH=1692976756
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
