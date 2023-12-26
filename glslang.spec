@@ -7,10 +7,10 @@
 #
 %define keepstatic 1
 Name     : glslang
-Version  : 13.1.1
-Release  : 49
-URL      : https://github.com/KhronosGroup/glslang/archive/13.1.1/glslang-13.1.1.tar.gz
-Source0  : https://github.com/KhronosGroup/glslang/archive/13.1.1/glslang-13.1.1.tar.gz
+Version  : 14.0.0
+Release  : 50
+URL      : https://github.com/KhronosGroup/glslang/archive/14.0.0/glslang-14.0.0.tar.gz
+Source0  : https://github.com/KhronosGroup/glslang/archive/14.0.0/glslang-14.0.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : AML Apache-2.0 BSD-3-Clause
@@ -22,13 +22,15 @@ BuildRequires : bison
 BuildRequires : buildreq-cmake
 BuildRequires : flex
 BuildRequires : glibc-dev
+BuildRequires : python3-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
 
 %description
-# News
-1. [As discussed in #3107](https://github.com/KhronosGroup/glslang/issues/3107), the default branch of this repository is now 'main'. This change should be transparent to repository users, since github rewrites many references to the old 'master' branch to 'main'. However, if you have a checked-out local clone, you may wish to take the following steps as recommended by github:
+VERSION
+--------------------------------------------------------------------------------
+spirv-remap 0.97
 
 %package bin
 Summary: bin components for the glslang package.
@@ -69,15 +71,15 @@ license components for the glslang package.
 
 
 %prep
-%setup -q -n glslang-13.1.1
-cd %{_builddir}/glslang-13.1.1
+%setup -q -n glslang-14.0.0
+cd %{_builddir}/glslang-14.0.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1702319720
+export SOURCE_DATE_EPOCH=1703616676
 unset LD_AS_NEEDED
 mkdir -p clr-build
 pushd clr-build
@@ -132,7 +134,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1702319720
+export SOURCE_DATE_EPOCH=1703616676
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glslang
 cp %{_builddir}/glslang-%{version}/LICENSE.txt %{buildroot}/usr/share/package-licenses/glslang/f77668fa8c7bb3dc2788af730150c401bd723fed || :
@@ -157,70 +159,19 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/glslang/HLSL/hlslAttributes.h
-/usr/include/glslang/HLSL/hlslGrammar.h
-/usr/include/glslang/HLSL/hlslOpMap.h
-/usr/include/glslang/HLSL/hlslParseHelper.h
-/usr/include/glslang/HLSL/hlslParseables.h
-/usr/include/glslang/HLSL/hlslScanContext.h
-/usr/include/glslang/HLSL/hlslTokenStream.h
-/usr/include/glslang/HLSL/hlslTokens.h
-/usr/include/glslang/Include/BaseTypes.h
-/usr/include/glslang/Include/Common.h
-/usr/include/glslang/Include/ConstantUnion.h
-/usr/include/glslang/Include/InfoSink.h
-/usr/include/glslang/Include/InitializeGlobals.h
-/usr/include/glslang/Include/PoolAlloc.h
 /usr/include/glslang/Include/ResourceLimits.h
-/usr/include/glslang/Include/ShHandle.h
-/usr/include/glslang/Include/SpirvIntrinsics.h
-/usr/include/glslang/Include/Types.h
-/usr/include/glslang/Include/arrays.h
 /usr/include/glslang/Include/glslang_c_interface.h
 /usr/include/glslang/Include/glslang_c_shader_types.h
-/usr/include/glslang/Include/intermediate.h
-/usr/include/glslang/MachineIndependent/Initialize.h
-/usr/include/glslang/MachineIndependent/LiveTraverser.h
-/usr/include/glslang/MachineIndependent/ParseHelper.h
-/usr/include/glslang/MachineIndependent/RemoveTree.h
-/usr/include/glslang/MachineIndependent/Scan.h
-/usr/include/glslang/MachineIndependent/ScanContext.h
-/usr/include/glslang/MachineIndependent/SymbolTable.h
 /usr/include/glslang/MachineIndependent/Versions.h
-/usr/include/glslang/MachineIndependent/attribute.h
-/usr/include/glslang/MachineIndependent/gl_types.h
-/usr/include/glslang/MachineIndependent/glslang_tab.cpp.h
-/usr/include/glslang/MachineIndependent/iomapper.h
-/usr/include/glslang/MachineIndependent/localintermediate.h
-/usr/include/glslang/MachineIndependent/parseVersions.h
-/usr/include/glslang/MachineIndependent/preprocessor/PpContext.h
-/usr/include/glslang/MachineIndependent/preprocessor/PpTokens.h
-/usr/include/glslang/MachineIndependent/propagateNoContraction.h
-/usr/include/glslang/MachineIndependent/reflection.h
 /usr/include/glslang/Public/ResourceLimits.h
 /usr/include/glslang/Public/ShaderLang.h
 /usr/include/glslang/Public/resource_limits_c.h
-/usr/include/glslang/SPIRV/GLSL.ext.AMD.h
-/usr/include/glslang/SPIRV/GLSL.ext.ARM.h
-/usr/include/glslang/SPIRV/GLSL.ext.EXT.h
-/usr/include/glslang/SPIRV/GLSL.ext.KHR.h
-/usr/include/glslang/SPIRV/GLSL.ext.NV.h
-/usr/include/glslang/SPIRV/GLSL.std.450.h
 /usr/include/glslang/SPIRV/GlslangToSpv.h
 /usr/include/glslang/SPIRV/Logger.h
-/usr/include/glslang/SPIRV/NonSemanticDebugPrintf.h
-/usr/include/glslang/SPIRV/NonSemanticShaderDebugInfo100.h
 /usr/include/glslang/SPIRV/SPVRemapper.h
-/usr/include/glslang/SPIRV/SpvBuilder.h
-/usr/include/glslang/SPIRV/SpvTools.h
-/usr/include/glslang/SPIRV/bitutils.h
 /usr/include/glslang/SPIRV/disassemble.h
-/usr/include/glslang/SPIRV/doc.h
-/usr/include/glslang/SPIRV/hex_float.h
 /usr/include/glslang/SPIRV/spirv.hpp
-/usr/include/glslang/SPIRV/spvIR.h
 /usr/include/glslang/build_info.h
-/usr/lib64/cmake/HLSLTargets.cmake
 /usr/lib64/cmake/SPIRVTargets.cmake
 /usr/lib64/cmake/SPVRemapperTargets.cmake
 /usr/lib64/cmake/glslang-default-resource-limitsTargets.cmake
@@ -233,26 +184,22 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libHLSL.so.13.1.1
-/V3/usr/lib64/libSPIRV.so.13.1.1
-/V3/usr/lib64/libSPVRemapper.so.13.1.1
-/V3/usr/lib64/libglslang-default-resource-limits.so.13.1.1
-/V3/usr/lib64/libglslang.so.13.1.1
-/usr/lib64/libHLSL.so
-/usr/lib64/libHLSL.so.13
-/usr/lib64/libHLSL.so.13.1.1
+/V3/usr/lib64/libSPIRV.so.14.0.0
+/V3/usr/lib64/libSPVRemapper.so.14.0.0
+/V3/usr/lib64/libglslang-default-resource-limits.so.14.0.0
+/V3/usr/lib64/libglslang.so.14.0.0
 /usr/lib64/libSPIRV.so
-/usr/lib64/libSPIRV.so.13
-/usr/lib64/libSPIRV.so.13.1.1
+/usr/lib64/libSPIRV.so.14
+/usr/lib64/libSPIRV.so.14.0.0
 /usr/lib64/libSPVRemapper.so
-/usr/lib64/libSPVRemapper.so.13
-/usr/lib64/libSPVRemapper.so.13.1.1
+/usr/lib64/libSPVRemapper.so.14
+/usr/lib64/libSPVRemapper.so.14.0.0
 /usr/lib64/libglslang-default-resource-limits.so
-/usr/lib64/libglslang-default-resource-limits.so.13
-/usr/lib64/libglslang-default-resource-limits.so.13.1.1
+/usr/lib64/libglslang-default-resource-limits.so.14
+/usr/lib64/libglslang-default-resource-limits.so.14.0.0
 /usr/lib64/libglslang.so
-/usr/lib64/libglslang.so.13
-/usr/lib64/libglslang.so.13.1.1
+/usr/lib64/libglslang.so.14
+/usr/lib64/libglslang.so.14.0.0
 
 %files license
 %defattr(0644,root,root,0755)
